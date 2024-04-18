@@ -1,0 +1,57 @@
+<odoo>
+    <template id="gpt_blog" name="gpt blog" inherit_id="website_blog.blog_post_complete">
+        <xpath expr="//section[@id='o_wblog_post_main']" position="inside">
+            <style>
+                /* Style the custom button */
+                .custom-button {
+                background-color: black;
+                border: 2px solid #fff; /* Round white border */
+                color: white; /* Text color */
+                font-size:20px;
+
+                padding: 10px 40px; /* Adjust padding as needed */
+                border-radius: 25px; /* Round corners */
+                cursor: pointer;
+                transition: background-color 0.3s; /* Smooth background color transition on hover */
+                outline: none; /* Remove default button outline */
+                }
+
+                /* Change background color on hover */
+                .custom-button:hover {
+                background-color: red;
+                color: #fff;
+                border: 2px solid red;
+                }
+
+            </style>
+
+            <!--            Inherited and added button in Blog Template-->
+            <div class="o_container_small" style="padding-left:15rem;">
+                <a class="custom-button" t-attf-href="/gptBlog/{{blog.id}}/{{blog_post.id}}">GPT</a>
+            </div>
+
+        </xpath>
+    </template>
+
+    <template id="create_ai_blog" name="Create AI Blog" inherit_id="website_blog.blogs_nav">
+        <xpath expr="//nav/div" position="inside">
+            <style>
+                .custom-button {
+                    background-color: #35979c;
+                    border: 2px solid #fff;
+                    color: white;
+                    font-size:15px;
+                    padding: 7px 13px;
+                    margin-left: -130px;
+                    border-radius: 6px;
+                }
+            </style>
+
+            <!--            Inherited and added button in Blog Template-->
+            <button class="custom-button" name="create_ai_blog_button">Create AI Blog</button>
+
+        </xpath>
+    </template>
+</odoo>
+
+

@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_odoo_gpt_blogger_odoo_gpt_blogger,odoo_gpt_blogger.odoo_gpt_blogger,model_odoo_gpt_blogger_odoo_gpt_blogger,base.group_user,1,1,1,1
