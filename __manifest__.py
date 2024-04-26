@@ -27,6 +27,7 @@
         # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
+        'views/popup.xml',
         'data/ai_blog_button.xml',
         'data/ai_content_page.xml',
     ],

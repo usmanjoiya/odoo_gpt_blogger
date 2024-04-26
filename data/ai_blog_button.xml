@@ -32,26 +32,50 @@
 
         </xpath>
     </template>
-
     <template id="create_ai_blog" name="Create AI Blog" inherit_id="website_blog.blogs_nav">
         <xpath expr="//nav/div" position="inside">
             <style>
                 .custom-button {
-                    background-color: #35979c;
-                    border: 2px solid #fff;
-                    color: white;
-                    font-size:15px;
-                    padding: 7px 13px;
-                    margin-left: -130px;
-                    border-radius: 6px;
+                background-color: #35979c;
+                border: 2px solid #fff;
+                color: white;
+                font-size:15px;
+                padding: 7px 13px;
+                margin-left: -130px;
+                border-radius: 6px;
                 }
             </style>
 
             <!--            Inherited and added button in Blog Template-->
-            <button class="custom-button" name="create_ai_blog_button">Create AI Blog</button>
-
+            <script>
+                debugger;
+                function cl(clicked_div) {
+                    debugger;
+                    document.getElementById('popup').style.display = 'block';
+                    var selectElement = document.getElementById("providr");
+                    var iconBox = clicked_div.closest('.icon-box');
+<!--                    var h4Element = iconBox.querySelector('h4.title');-->
+<!--                    var providerName = h4Element.textContent.trim();-->
+<!--                    for (var i = selectElement.options.length - 1; i > 0; i&#45;&#45;) {-->
+<!--                        if (selectElement.options[i].value === providerName) {-->
+<!--                            selectElement.selectedIndex = i;-->
+<!--                            break;-->
+<!--                        }-->
+<!--                    };-->
+                };
+                function closee() {
+                    var form = document.getElementById('myForm');
+                    if (form) {
+                            form.reset();
+                        }
+                    document.getElementById('popup').style.display = 'none';
+                }
+            </script>
+            <t t-call="odoo_gpt_blogger.pop"/>
+            <button class="custom-button" onclick="cl(this);" name="create_ai_blog_button">Create AI Blog</button>
         </xpath>
     </template>
+
 </odoo>
 
 

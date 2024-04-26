@@ -1,0 +1,1061 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="gethelp">
+        <t t-call="website.layout">
+        <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>PWC WEBSITE || Get Help</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="/cwc_website/static/src/img/favicon.png" rel="icon" />
+    <link href="/cwc_website/static/src/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="/cwc_website/static/src/vendor/fontawesome-free/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="/cwc_website/static/src/vendor/animate.css/animate.min.css" rel="stylesheet" />
+<!--    <link href="/cwc_website/static/src/vendor/aos/aos.css" rel="stylesheet" />-->
+    <link
+      href="/cwc_website/static/src/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="/cwc_website/static/src/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="/cwc_website/static/src/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link
+      href="/cwc_website/static/src/vendor/glightbox/css/glightbox.min.css"
+      rel="stylesheet"
+    />
+    <link href="/cwc_website/static/src/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+    <!-- Template Main CSS File -->
+    <link href="/cwc_website/static/src/css/style.css" rel="stylesheet" />
+
+    <!-- =======================================================
+  * Template Name: Medicio
+  * Updated: Sep 18 2023 with Bootstrap v5.3.2
+  * Template URL: https://bootstrapmade.com/medicio-free-bootstrap-theme/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  </head>
+
+<style>
+  /* Base styles for the h1 */
+  #hero h1 {
+    padding-top: 5.4%;
+    color: white;
+    font-family: serif;
+    font-size: 50px;
+    font-weight: 600;
+  }
+ #hero img {
+      height:235px;
+      width: 100%;
+      object-fit: cover;
+     }
+ .shadow {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 235px;
+     background: rgba(32, 47, 50, 0.50);
+     text-align: center;
+     }
+
+  /* Responsive styles for the h1 */
+  @media (max-width: 768px) {
+   #hero h1 {
+      font-size: 30px; /* Adjust the font size for smaller screens */
+
+    }
+    #hero img {
+      height:100%;
+      width: 100%;
+      object-fit: cover;
+     }
+     .shadow {
+     width: 100%;
+     height: 100%;
+     }
+  }
+</style>
+    <!-- ======= Hero Section ======= -->
+ <section id="hero" style="padding: 0 !important; position: relative;">
+    <img src="/cwc_website/static/src/img/newProject/gethelp3.png" alt="Hero Image"/>
+    <div class="shadow">
+        <h1>
+           Get Help
+        </h1>
+    </div>
+</section>
+
+    <!-- End Hero -->
+
+    <main id="main">
+      <!-- ======= Featured Services Section ======= -->
+        <script>
+            <![CDATA[
+                function update_records(is_available=false, is_location=false, is_language=false, is_speciality=false)
+                {
+                    var available_obj = document.getElementById('is_available_id');
+                    var location_obj = document.getElementById('is_location_id');
+                    var language_obj = document.getElementById('is_language_id');
+                    var speciality_obj = document.getElementById('is_speciality_id');
+
+                    if (!is_available && available_obj.style.backgroundColor != 'black'){
+                        is_available = 1;
+                    }
+
+                    if (!is_location && location_obj.style.backgroundColor != 'black'){
+                        is_location = location_obj.textContent;
+                    }
+
+                    if (!is_language && language_obj.style.backgroundColor != 'black'){
+                        is_language = language_obj.textContent;
+                    }
+
+                    if (!is_speciality && speciality_obj.style.backgroundColor != 'black'){
+                        is_speciality = speciality_obj.textContent;
+                    }
+
+
+                    if (is_available || is_location || is_language || is_speciality)
+                    {
+                        document.getElementById('see_less_div').style.display = 'none';
+                        document.getElementById('see_lese_more_buttons_div').style.display = 'none';
+
+                        $.ajax({
+                          url: "/filter/providers",
+                          type: "get",
+                          data: {
+                            'availability': is_available,
+                            'location': is_location,
+                            'language': is_language,
+                            'speciality': is_speciality,
+                          },
+                          success: function(response) {
+                            res = JSON.parse(response);
+
+                            p_div = document.getElementById('filtered_div');
+                            p_div.innerHTML = " ";
+
+                            for (let i = 0; i < res['providers_count']; i++)
+                            {
+                                p_div.innerHTML += `<div
+                                                              class="col-lg-3 col-md-6 icon-box"
+                                                              data-aos="zoom-in"
+                                                              data-aos-delay="1"
+                                                              style="background-color: #f4f4f4; padding: 40px 10px; cursor: pointer;"
+                                                              data-partner-id="${res['providers_data'][i]['partner_id']}"
+                                                              onclick="handleCardClick(this);">
+
+                                                                <div class="icon" style="width: 110px; height: 110px">
+                                                                  <img style="width: 110px; height: 110px" src="${res['providers_data'][i]['thumbnail_img']}" />
+                                                                </div>
+                                                                <h4 class="title"><a href="/provider?partner_id=${res['providers_data'][i]['partner_id']}">${res['providers_data'][i]['name']}</a></h4>
+                                                                <div style="line-height: 5px; padding: 10px 14px">
+                                                              <div class="d-flex gap-1">
+                                                                <h6 style="font-weight: 700; font-size: 14px;height: 49px;">${res['providers_data'][i]['license_type']} <br/>#${res['providers_data'][i]['license_number']}</h6>
+                                                              </div>
+                                                              <div class="d-flex gap-1">
+                                                                <h6 style="font-weight: 700; font-size: 14px">
+                                                                  Supervised By:
+                                                                </h6>
+                                                                <p style="margin-bottom: 0; margin-top: 7px; font-size: 12px;font-weight: 600;">
+                                                                  ${res['providers_data'][i]['supervisor_name']}, ${res['providers_data'][i]['supervisor_license_type']} #${res['providers_data'][i]['supervisor_license_no']}
+                                                                </p>
+                                                              </div>
+                                                              <div class="d-flex gap-1">
+                                                                <h6 style="font-weight: 700; font-size: 14px">Location:</h6>
+                                                                <p style="margin-bottom: 0; margin-top: 7px; font-size: 12px;font-weight: 600;">
+                                                                  ${res['providers_data'][i]['location']}
+                                                                </p>
+                                                              </div>
+                                                              <div class="d-flex gap-1">
+                                                                <h6 style="font-weight: 700; font-size: 14px">Rates:</h6>
+                                                                <p style="margin-bottom: 0; margin-top: 7px; font-size: 12px;font-weight: 600;">
+                                                                  ${res['providers_data'][i]['rates']}
+                                                                </p>
+                                                              </div>
+                                                              <div class="d-flex gap-1">
+                                                                <h6 style="font-weight: 700; font-size: 14px">Bio:</h6>
+                                                                <h6 style="margin-bottom: 0;margin-top: 3px;font-size: 12px;font-weight: 500;overflow: hidden;text-overflow: ellipsis;text-align: left;height: 49px;">
+                                                                  ${res['providers_data'][i]['bio_preview']}
+                                                                </h6>
+                                                              </div>
+                                                            </div>
+
+                                                <div
+                                                  class="text-center"
+                                                  style="
+                                                    background-color: #d85e31;
+                                                    padding: 10px 15px;
+                                                    margin: 0 20px;
+                                                  "
+                                                >
+                                                  <a href="#" style="color: white;font-family: serif;" onclick="event.stopPropagation(); cl(this)">Book Appointment</a>
+                                                </div>
+                                              </div>`
+                             }
+                          },
+                          error: function(xhr) {
+                            console.error("Got error");
+                            console.error(xhr);
+                          }
+                        });
+                    }
+                    else
+                    {
+                        p_div = document.getElementById('filtered_div');
+                        p_div.innerHTML = " ";
+                        document.getElementById('see_less_div').style.display = 'flex';
+                        document.getElementById('see_lese_more_buttons_div').style.display = 'block';
+                    }
+                }
+
+                function availability_filters(obj)
+                {
+                    if(obj.style.backgroundColor == 'black')
+                    {
+                        obj.style.backgroundColor = '#d85e31';
+                        update_records(1);
+                    }
+                    else
+                    {
+                        obj.style.backgroundColor = 'black';
+                        update_records();
+                    }
+                }
+
+                function LocationFilter(option) {
+                    const button = document.querySelector('.dropdown-btn');
+                    if (!button.textContent.includes(option))
+                    {
+                        button.textContent = `${option}`;
+                        button.style.backgroundColor = '#d85e31';
+
+                        update_records(0, option);
+                    }
+                    else
+                    {
+                        button.textContent = `Location`;
+                        button.style.backgroundColor = 'black';
+                        update_records();
+                    }
+
+
+                    const dropdown = document.querySelector('.dropdown');
+                    dropdown.classList.remove('active');
+                }
+
+                function selectLangOption(obj){
+                    var button = document.querySelector('.dropdown-lang-btn');
+
+                    if (!button.textContent.includes(obj.textContent))
+                    {
+                        button.textContent = `${obj.textContent}`;
+                        button.style.backgroundColor = '#d85e31';
+                        update_records(false, false, obj.textContent);
+                    }
+                    else
+                    {
+                        button.textContent = `Language`;
+                        button.style.backgroundColor = 'black';
+                        update_records();
+                    }
+
+                    const dropdown = document.querySelector('.lang_dropdown');
+                    dropdown.classList.remove('active');
+                }
+
+
+                function selectSpecialityOption(obj)
+                {
+                    const button = document.querySelector('.dropdown-speciality-btn');
+                    if (!button.textContent.includes(obj.textContent))
+                    {
+                        button.textContent = `${obj.textContent}`;
+                        button.style.backgroundColor = '#d85e31';
+                        update_records(false, false, false, obj.textContent);
+                    }
+                    else
+                    {
+                        button.textContent = `Speciality`;
+                        button.style.backgroundColor = 'black';
+                        update_records();
+                    }
+
+
+                    const dropdown = document.querySelector('.speciality_dropdown');
+                    dropdown.classList.remove('active');
+                }
+
+            ]]>
+        </script>
+      <section id="featured-services" class="featured-services">
+        <div class="container" data-aos="fade-up">
+          <div class="row">
+            <div
+              class="col-md-12 col-lg-12 d-flex align-items-center justify-content-center text-center mb-lg-0"
+            >
+              <div
+                class="d-flex align-content-center justify-content-center flex-column"
+              >
+                <h4 class="title"><a>FIND A COUNSELOR</a></h4>
+                <p class="description" style="
+    text-align: center !important;
+">Provider Directory</p>
+                <p
+                  class="description-text"
+                  style="max-width: 61ch; text-align: center; margin-left: 40px;"
+                >
+                    Please review our Provider Directory to find a Registered Associate Marriage and Family Therapist
+                    (AMFT) or Registered Associate Clinical Social Worker (ACSW) who meets your needs.
+                </p>
+                <div class="d-flex justify-content-center align-content-center gap-2 flex-wrap">
+
+                  <button
+                    id="is_available_id"
+                    class="description-btn"
+                    style="background-color: black; color: white"
+                    onclick="availability_filters(this)"
+                  >Availability</button>
+
+                    <style>
+                    /* Add your styles here */
+                        section {
+                            overflow: visible !important;
+                        }
+                    .dropdown {
+                        position: relative;
+                        display: inline-block;
+                    }
+
+                    .dropdown-btn {
+                        color: white;
+                        padding: 6px;
+                        cursor: pointer;
+                    }
+
+                    .dropdown-content {
+                        display: none;
+                        position: absolute;
+                        background-color: #f9f9f9;
+                        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                        z-index: 1;
+                        width:137px;
+                    }
+
+                    .dropdown-content a {
+                        color: white;
+                        display: block;
+                        text-decoration: none;
+                        background-color:#0b0b0c;
+                    }
+
+                    .dropdown-content a:hover {
+                        background-color: #d85e31;
+                    }
+
+                    .dropdown.active .dropdown-content {
+                        display: block;
+                    }
+                </style>
+                    <div class="dropdown" onclick="toggleDropdown()">
+                        <button id="is_location_id" class="description-btn dropdown-btn" style="background-color: black; margin-bottom:0px !important;">Location
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="#" onclick="LocationFilter('In Person')">In Person</a>
+                            <a href="#" onclick="LocationFilter('Virtual')">Virtual</a>
+                            <a href="#" onclick="LocationFilter('Both')">Both</a>
+                        </div>
+                    </div>
+                    <script>
+                        function toggleDropdown() {
+                            const dropdown = document.querySelector('.dropdown');
+                            dropdown.classList.toggle('active');
+                        }
+                        window.addEventListener('click', function (event) {
+                            const dropdown = document.querySelector('.dropdown');
+                            if (!dropdown.contains(event.target)) {
+                                dropdown.classList.remove('active');
+                            }
+                        });
+                        document.querySelector('.dropdown-content').addEventListener('click', function (event) {
+                            event.stopPropagation();
+                        });
+                    </script>
+
+
+                  <style>
+                    /* Add your styles here */
+                        section {
+                            overflow: visible !important;
+                        }
+                    .lang_dropdown {
+                        position: relative;
+                        display: inline-block;
+
+                    }
+
+                    .dropdown-lang-btn {
+                        color: white;
+                        padding: 6px;
+                        cursor: pointer;
+                    }
+
+                    .dropdown-lang-content {
+                        display: none;
+                        position: absolute;
+                        background-color: #f9f9f9;
+                        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                        z-index: 1;
+                        width:137px;
+                    }
+
+                    .dropdown-lang-content a {
+                        color: white;
+                        display: block;
+                        text-decoration: none;
+                        background-color:#0b0b0c;
+                    }
+
+                    .dropdown-lang-content a:hover {
+                        background-color: #d85e31;
+                    }
+
+                    .lang_dropdown.active .dropdown-lang-content {
+                        display: block;
+                      }
+                      .description-btn.dropdown-lang-btn::placeholder {
+                      color: white;
+                      }
+
+                  </style>
+                    <div class="lang_dropdown" onclick="toggleLangDropdown()">
+                      <button id="is_language_id" class="description-btn dropdown-lang-btn" style="background-color: black; margin-bottom:0px !important;overflow:hidden;">Language</button>
+                        <div class="dropdown-lang-content">
+                            <t t-foreach="available_languages" t-as="language">
+                                <a href="#" t-att-language="language" onclick="selectLangOption(this)"><t t-esc="language"/></a>
+                            </t>
+                        </div>
+                    </div>
+                    <script>
+                        function toggleLangDropdown() {
+                            const dropdown = document.querySelector('.lang_dropdown');
+                            dropdown.classList.toggle('active');
+                        }
+                        window.addEventListener('click', function (event) {
+                            const dropdown = document.querySelector('.lang_dropdown');
+                            if (!dropdown.contains(event.target)) {
+                                dropdown.classList.remove('active');
+                            }
+                        });
+                        document.querySelector('.dropdown-lang-content').addEventListener('click', function (event) {
+                            event.stopPropagation();
+                        });
+                    </script>
+
+                  <style>
+                    /* Add your styles here */
+                        section {
+                            overflow: visible !important;
+                        }
+                    .speciality_dropdown {
+                        position: relative;
+                        display: inline-block;
+
+                    }
+
+                    .dropdown-speciality-btn {
+                        color: white;
+                        padding: 6px;
+                        cursor: pointer;
+                    }
+
+                    .dropdown-speciality-content {
+                        display: none;
+                        position: absolute;
+                        background-color: #f9f9f9;
+                        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                        z-index: 1;
+                        width:200px;
+                    }
+
+                    .dropdown-speciality-content a {
+                        color: white;
+                        display: block;
+                        text-decoration: none;
+                        background-color:#0b0b0c;
+                    }
+
+                    .dropdown-speciality-content a:hover {
+                        background-color: #d85e31;
+                    }
+
+                    .speciality_dropdown.active .dropdown-speciality-content {
+                        display: block;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow-y: auto;
+                        height: 141px;
+                      }
+                      .speciality_dropdown.active .dropdown-speciality-content::-webkit-scrollbar {
+                            width: 10px; /* Set the width of the scrollbar */
+                        }
+
+                        .speciality_dropdown.active .dropdown-speciality-content::-webkit-scrollbar-track {
+                            background-color: black; /* Set the background color of the scrollbar track */
+                        }
+
+                        .speciality_dropdown.active .dropdown-speciality-content::-webkit-scrollbar-thumb {
+                            background-color: #d85e31; /* Set the color of the scrollbar thumb */
+                            border-radius: 5px; /* Add rounded corners to the scrollbar thumb */
+                        }
+                      .description-btn.dropdown-speciality-btn::placeholder {
+                      color: white;
+                      }
+
+                </style>
+                  <div class="speciality_dropdown" onclick="toggleSpecialityDropdown()">
+                      <button id="is_speciality_id" class="description-btn dropdown-speciality-btn" style="background-color: black; color: white; width:200px;">Specialty</button>
+                      <div class="dropdown-speciality-content">
+                        <t t-foreach="specialities" t-as="speciality">
+                            <a href="#" onclick="selectSpecialityOption(this)"><t t-esc="speciality"/></a>
+                        </t>
+                      </div>
+                  </div>
+                  <script>
+                        function toggleSpecialityDropdown() {
+                            const dropdown = document.querySelector('.speciality_dropdown');
+                            dropdown.classList.toggle('active');
+                        }
+                        window.addEventListener('click', function (event) {
+                            const dropdown = document.querySelector('.speciality_dropdown');
+                            if (!dropdown.contains(event.target)) {
+                                dropdown.classList.remove('active');
+                            }
+                        });
+                        document.querySelector('.dropdown-speciality-content').addEventListener('click', function (event) {
+                            event.stopPropagation();
+                        });
+                  </script>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Featured Services Section -->
+        <t t-call="cwc_website.pop"/>
+      <script>
+          function cl(clicked_div) {
+                document.getElementById('popup').style.display = 'block';
+
+                var selectElement = document.getElementById("providr");
+                var iconBox = clicked_div.closest('.icon-box');
+                var h4Element = iconBox.querySelector('h4.title');
+                var providerName = h4Element.textContent.trim();
+
+                for (var i = selectElement.options.length - 1; i > 0; i--) {
+                    if (selectElement.options[i].value === providerName) {
+                        selectElement.selectedIndex = i;
+                        break;
+                    }                };
+          };
+
+         function closee() {
+  var form = document.getElementById('myForm');
+  if (form) {
+    form.reset();
+  }
+  document.getElementById('popup').style.display = 'none';
+}
+      </script>
+      <section id="see_l" class="services" style="display:block;">
+        <div class="container">
+          <div
+            id="filtered_div"
+            class="row"
+            style="gap: 30px; display: flex; justify-content: center"
+          ></div>
+
+          <div
+            id="see_less_div"
+            class="row"
+            style="gap: 30px; display: flex; justify-content: center"
+          >
+
+            <t t-set="max_providers" t-value="providers_count"/>
+            <t t-set="min_range" t-value="0"/>
+            <t t-if="max_providers &gt;= 6">
+                <t t-set="max_range" t-value="6"/>
+            </t>
+            <t t-else="">
+                <t t-set="max_range" t-value="max_providers"/>
+            </t>
+
+            <t t-foreach="range(min_range, max_range)" t-as="count">
+                <div
+                  class="col-lg-3 col-md-6 icon-box"
+                  data-aos="zoom-in"
+                  data-aos-delay="1"
+                  style="background-color: #f4f4f4; padding: 40px 10px; cursor: pointer;"
+                  t-att-data-partner-id="providers_data[count]['partner_id']"
+                  onclick="handleCardClick(this);">
+
+                    <div class="icon" style="width: 110px; height: 110px">
+                      <t t-if="providers_data[count]['thumbnail_img']">
+                        <img style="width: 110px; height: 110px" t-att-src="image_data_uri(providers_data[count]['thumbnail_img'])" />
+                      </t>
+                      <t t-else="">
+                        <img style="width: 110px; height: 110px" src="cwc_website/static/src/img/newProject/user.png"/>
+                      </t>
+                    </div>
+                    <h4 class="title"><a t-attf-href="/provider?partner_id={{providers_data[count]['partner_id']}}"><t t-esc="providers_data[count]['name']"/></a></h4>
+                    <div style="line-height: 5px; padding: 10px 14px">
+                  <div class="d-flex gap-1">
+                    <h6 style="font-weight: 700; font-size: 14px;height: 49px;"><t t-esc="providers_data[count]['license_type']"/> <br/># <t t-esc="providers_data[count]['license_number']"/></h6>
+                  </div>
+                  <div class="d-flex gap-1">
+                    <h6 style="font-weight: 700; font-size: 14px">
+                      Supervised By:
+                    </h6>
+                    <p style="margin-bottom: 0; margin-top: 7px; font-size: 12px;font-weight: 600;">
+                      <t t-esc="providers_data[count]['supervisor_name']"/>, <t t-esc="providers_data[count]['supervisor_license_type']"/> #<t t-esc="providers_data[count]['supervisor_license_no']"/>
+                    </p>
+                  </div>
+                  <div class="d-flex gap-1">
+                    <h6 style="font-weight: 700; font-size: 14px">Location:</h6>
+                    <p style="margin-bottom: 0; margin-top: 7px; font-size: 12px;font-weight: 600;">
+                      <t t-esc="providers_data[count]['location']"/>
+                    </p>
+                  </div>
+                  <div class="d-flex gap-1">
+                    <h6 style="font-weight: 700; font-size: 14px">Rates:</h6>
+                    <p style="margin-bottom: 0; margin-top: 7px; font-size: 12px;font-weight: 600;">
+                      <t t-esc="providers_data[count]['rates']"/>
+                    </p>
+                  </div>
+                  <div class="d-flex gap-1">
+                    <h6 style="font-weight: 700; font-size: 14px">Bio:</h6>
+                    <h6 style="margin-bottom: 0;margin-top: 3px;font-size: 12px;font-weight: 500;overflow: hidden;text-overflow: ellipsis;text-align: left;height: 49px;">
+                      <t t-esc="providers_data[count]['bio_preview']"/>
+                    </h6>
+                  </div>
+                </div>
+
+                <div
+                  class="text-center"
+                  style="
+                    background-color: #d85e31;
+                    padding: 10px 15px;
+                    margin: 0 20px;
+                  "
+                >
+                  <a href="#" style="color: white;font-family: serif;" onclick="event.stopPropagation(); cl(this)">Book Appointment</a>
+                </div>
+              </div>
+            </t>
+          </div>
+
+
+            <script>
+                <![CDATA[
+
+                    function add_providers(max=false)
+                    {
+                        $.ajax({
+                                  url: "/see/more",
+                                  type: "get",
+                                  data: {
+                                    availability: 1
+                                  },
+                                  success: function(response) {
+                                    res = JSON.parse(response);
+
+                                    p_div = document.getElementById('see_less_div');
+                                    p_div.innerHTML = " ";
+                                    if(!max)
+                                    {
+                                        max = res['providers_count'];
+                                    }
+                                    for (let i = 0; i < max; i++)
+                                    {
+                                        p_div.innerHTML += `<div
+                                                              class="col-lg-3 col-md-6 icon-box"
+                                                              data-aos="zoom-in"
+                                                              data-aos-delay="1"
+                                                              style="background-color: #f4f4f4; padding: 40px 10px; cursor: pointer;"
+                                                              data-partner-id="${res['providers_data'][i]['partner_id']}"
+                                                              onclick="handleCardClick(this);">
+
+                                                                <div class="icon" style="width: 110px; height: 110px">
+                                                                  <img style="width: 110px; height: 110px" src="${res['providers_data'][i]['thumbnail_img']}" />
+                                                                </div>
+                                                                <h4 class="title"><a href="/provider?partner_id=${res['providers_data'][i]['partner_id']}">${res['providers_data'][i]['name']}</a></h4>
+                                                                <div style="line-height: 5px; padding: 10px 14px">
+                                                              <div class="d-flex gap-1">
+                                                                <h6 style="font-weight: 700; font-size: 14px height: 49px;">${res['providers_data'][i]['license_type']}<br/> #${res['providers_data'][i]['license_number']}</h6>
+                                                              </div>
+                                                              <div class="d-flex gap-1">
+                                                                <h6 style="font-weight: 700; font-size: 14px">
+                                                                  Supervised By:
+                                                                </h6>
+                                                                <p style="margin-bottom: 0; margin-top: 7px; font-size: 12px;font-weight: 600;">
+                                                                  ${res['providers_data'][i]['supervisor_name']}, ${res['providers_data'][i]['supervisor_license_type']} #${res['providers_data'][i]['supervisor_license_no']}
+                                                                </p>
+                                                              </div>
+                                                              <div class="d-flex gap-1">
+                                                                <h6 style="font-weight: 700; font-size: 14px">Location:</h6>
+                                                                <p style="margin-bottom: 0; margin-top: 7px; font-size: 12px;font-weight: 600;">
+                                                                  ${res['providers_data'][i]['location']}
+                                                                </p>
+                                                              </div>
+                                                              <div class="d-flex gap-1">
+                                                                <h6 style="font-weight: 700; font-size: 14px">Rates:</h6>
+                                                                <p style="margin-bottom: 0; margin-top: 7px; font-size: 12px;font-weight: 600;">
+                                                                  ${res['providers_data'][i]['rates']}
+                                                                </p>
+                                                              </div>
+                                                              <div class="d-flex gap-1">
+                                                                <h6 style="font-weight: 700; font-size: 14px">Bio:</h6>
+                                                                <h6 style="margin-bottom: 0;margin-top: 3px;font-size: 12px;font-weight: 500;overflow: hidden;text-overflow: ellipsis;text-align: left;height: 49px;">
+                                                                  ${res['providers_data'][i]['bio_preview']}
+                                                                </h6>
+                                                              </div>
+                                                            </div>
+
+                                                        <div
+                                                          class="text-center"
+                                                          style="
+                                                            background-color: #d85e31;
+                                                            padding: 10px 15px;
+                                                            margin: 0 20px;
+                                                          "
+                                                        >
+                                                          <a href="#" style="color: white;font-family: serif;" onclick="event.stopPropagation(); cl(this)">Book Appointment</a>
+                                                        </div>
+                                                      </div>`
+                                     }
+                                  },
+                                  error: function(xhr) {
+                                    console.error("Got error");
+                                    console.error(xhr);
+                                  }
+                                });
+                    }
+
+                    function handleCardClick(element) {
+                      var partnerId = element.getAttribute('data-partner-id');
+                      window.location.href = "/provider?partner_id=" + partnerId;
+                    };
+
+                    function see_more() {
+                        document.getElementById('see_more').style.display = 'none';
+                        document.getElementById('see_less').style.display = 'block';
+                        add_providers();
+
+                    }
+
+                    function see_less() {
+                        document.getElementById('see_more').style.display = 'block';
+                        document.getElementById('see_less').style.display = 'none';
+                        add_providers(6);
+                    }
+                  ]]>
+            </script>
+            <t t-if="max_providers &gt; 6">
+                <style>
+                    #see_lese_more_buttons_div {
+                        padding-left:47%;
+                    }
+                      /* Responsive styles for the h1 */
+                    @media (max-width: 768px) {
+                    #see_lese_more_buttons_div {
+                        padding-left:40%;
+                    }
+                    }
+                </style>
+                <div id="see_lese_more_buttons_div" class="navigation-buttons" style="">
+                    <button id="see_more" onclick="see_more()" style="background-color: #d85e31; color: white; padding: 5px 10px; border: none; border-radius: 0px; cursor: pointer;font-family: serif;">See More</button>
+                    <button id="see_less" onclick="see_less();" style="background-color: #d85e31; color: white; padding: 5px 10px; border: none; border-radius: 0px; cursor: pointer;font-family: serif;display:none;">See Less</button>
+                </div>
+            </t>
+            <t t-else="">
+                <div id="see_lese_more_buttons_div"></div>
+            </t>
+
+        </div>
+      </section>
+        <section
+        id="appointment"
+        class="featured-services"
+        style="background-color: #202f32"
+      >
+        <div class="container" data-aos="fade-up">
+          <div class="section-title">
+            <h4>
+              <a
+                style="
+                  font-family: sans-serif;
+                  font-size: 14px;
+                  font-weight: 500;
+                  line-height: 26px;
+                  letter-spacing: 0.1em;
+                  text-align: center;
+                  color: #d85e31;
+                "
+                >BECOME A CLIENT</a
+              >
+            </h4>
+            <p class="description" style="color: white;text-align:center;">
+              Request an Intake Session
+            </p>
+          </div>
+          <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+              <script>
+              <![CDATA[
+              function submitAppointmentForm2(event) {
+                  event.preventDefault();
+                const formData = new FormData()
+                let name = document.getElementById('fname').value;
+                let number = document.getElementById('fnumber').value;
+                let email = document.getElementById('femail').value;
+                let doctor = document.getElementById('fdoctor').value;
+
+                var regex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}\b/;
+
+                if (regex.test(email))
+                {
+                  if (name && number && doctor)
+                  {
+                    document.getElementById('femailError').innerHTML = '';
+
+                    formData.append('name', name)
+                    formData.append('number', number)
+                    formData.append('email', email)
+                    formData.append('interested_in', doctor)
+                    formData.append('provider', document.getElementById('fprovidr').value)
+                    formData.append('inPersonCheckbox', document.getElementById('finPersonCheckbox').checked)
+                    formData.append('telehealthCheckbox', document.getElementById('ftelehealthCheckbox').checked)
+                    formData.append('preferenceCheckbox', document.getElementById('fpreferenceCheckbox').checked)
+
+                    $.ajax({
+                      type: "POST",
+                      url: '/create/lead',
+                      contentType: false,
+                      processData:false,
+                      data: formData,
+                    });
+                    setTimeout(() => {
+                      window.location.href='/thank-you';
+                    }, 250)
+                  }
+                }
+                else{
+                    document.getElementById('femailError').innerHTML = 'Please enter a valid email address';
+                    return false;
+                }
+
+              }
+              ]]>
+            </script>
+
+          <form id="myForm"
+                method="post"
+                role="form">
+
+<!--                onsubmit="submitAppointmentForm(); return false;" -->
+            <div class="d-flex justify-content-center flex-wrap">
+              <div class="col-12 col-md-4 form-group input-color getHelp-res" style="padding-right: 13px">
+                <input
+                  type="text"
+                  name="name"
+                  class="form-control "
+                  id="fname"
+                  placeholder="Full Legal Name"
+                  required="1"
+                  style="
+                    background-color: #202f32;
+                    border: 1px solid #d85e31;
+                    color: white;
+                  "
+                />
+              </div>
+              <div class="col-12 col-md-4 form-group mt-3 mt-md-0 input-color">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="number"
+                  id="fnumber"
+                  placeholder="Phone Number"
+                  required="1"
+                  style="
+                    background-color: #202f32;
+                    border: 1px solid #d85e31;
+                    color: white;
+                  "
+                />
+              </div>
+            </div>
+            <div class="d-flex justify-content-center flex-wrap">
+              <div class="col-12 col-md-8 form-group mt-3 mt-3 input-color">
+                <input
+                  type="email"
+                  class="form-control"
+                  name="phone"
+                  id="femail"
+                  placeholder="Your Email"
+                  required="1"
+                  style="
+                    background-color: #202f32;
+                    border: 1px solid #d85e31;
+                    color: white;
+                  "
+                />
+                  <span id="femailError" class="error" style="color: #d85e31;"></span>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center flex-wrap">
+              <div class="col-12 col-md-8 form-group mt-3">
+                <select
+                  name="doctor"
+                  id="fdoctor"
+                  class="form-select"
+                  style="
+                    background-color: #202f32;
+                    border: 1px solid #d85e31;
+                    color: white;
+                  "
+                >
+                  <option value="">I'm Interested in</option>
+                  <option value="Individual Therapy">Individual Therapy</option>
+                  <option value="Couple Therapy">Couple Therapy</option>
+                  <option value="Family Therapy">Family Therapy</option>
+                </select>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center flex-wrap">
+              <div class="col-12 col-md-8 form-group mt-3">
+                <select                  name="Providers"
+                  id="fprovidr"
+                  class="form-select"
+                  style="
+                    background-color: #202f32;
+                    border: 1px solid #d85e31;
+                    color: white;
+                  "
+                >
+                  <option value="">Select Provider</option>
+                  <t t-foreach="range(providers_count)" t-as="count">
+                        <option t-attr-value="providers_data[count]['name']"><t t-esc="providers_data[count]['name']"/></option>
+                  </t>
+                </select>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center flex-wrap" style="padding-top: 8px">
+              <div class="col-12 col-md-8 mt-3 d-flex gap-2 flex-wrap">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="finPersonCheckbox"
+                    style="border: 1px solid #d85e31; background-color: #202f32"
+                  />
+                  <label
+                    class="form-check-label"
+                    for="inPersonCheckbox"
+                    style="color: white"
+                  >
+                    In-person
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="ftelehealthCheckbox"
+                    style="border: 1px solid #d85e31; background-color: #202f32"
+                  />
+                  <label
+                    class="form-check-label"
+                    for="telehealthCheckbox"
+                    style="color: white"
+                  >
+                    Telehealth
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="fpreferenceCheckbox"
+                    style="border: 1px solid #d85e31; background-color: #202f32"
+                  />
+                  <label
+                    class="form-check-label"
+                    for="preferenceCheckbox"
+                    style="color: white"
+                  >
+                    First available
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center">
+    <div class="col-12 col-md-8 form-group mt-3 text-center" style="background-color: #d85e31; padding: 5px 0">
+      <button style="color: white;background-color: #d85e31; padding: 5px 0;border:none;" onclick="submitAppointmentForm2(event)">Submit</button>
+    </div>
+  </div>
+          </form>
+        </div>
+      </section>
+
+    </main>
+    <!-- End #main -->
+
+
+    <div id="preloader"></div>
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+
+       <!-- Vendor JS Files -->
+    <script src="/cwc_website/static/src/vendor/purecounter/purecounter_vanilla.js"></script>
+<!--    <script src="/cwc_website/static/src/vendor/aos/aos.js"></script>-->
+    <script src="/cwc_website/static/src/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/cwc_website/static/src/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="/cwc_website/static/src/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="/cwc_website/static/src/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="/cwc_website/static/src/js/main.js"></script>
+
+
+        </t>
+    </template>
+</odoo>
